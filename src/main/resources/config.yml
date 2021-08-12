@@ -1,0 +1,10 @@
+# Permissions
+PermissionCommand: ""
+
+# Default Phrase's
+NoPermissionPhrase: "&cVocê não têm permissão para utilizar esse comando."
+Help: "Os comandos que estão disponíveis são: add, list"
+MobAddedSuccess: "Você adicionou um mob com sucesso na lista."
+MobAddedErrorNoArgs: "Você deve inserir o nome do mob e a quantidade que será limitada por chunk."
+MobAddedErrorNoArgs2: "Você deve inserir a quantidade do mob que será limitada por chunk."
+MobAddedErrorOnlyLong: "O valor de quantidade deve ser um numérico."

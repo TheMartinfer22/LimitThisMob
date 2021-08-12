@@ -1,0 +1,7 @@
+name: LimitThisMob
+version: ${project.version}
+main: br.com.nanosync.limitthismob.Main
+authors: [ Martinfer22 ]
+description: Um plugin para limitar monstros do mundo
+commands:
+  teste:
