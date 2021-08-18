@@ -1,10 +1,24 @@
 # Permissions
-PermissionCommand: ""
+PermissionCommand: "limitthismob.admin"
 
-# Default Phrase's
+# Default
 NoPermissionPhrase: "&cVocê não têm permissão para utilizar esse comando."
-Help: "Os comandos que estão disponíveis são: add, list"
-MobAddedSuccess: "Você adicionou um mob com sucesso na lista."
-MobAddedErrorNoArgs: "Você deve inserir o nome do mob e a quantidade que será limitada por chunk."
-MobAddedErrorNoArgs2: "Você deve inserir a quantidade do mob que será limitada por chunk."
-MobAddedErrorOnlyLong: "O valor de quantidade deve ser um numérico."
+Help: "&fOs comandos que estão disponíveis são: add, list, world"
+
+# Mob
+MobAddedSuccess: "&fVocê adicionou um mob com sucesso na lista."
+MobAddedErrorNoArgs: "&fVocê deve inserir o nome do mob e a quantidade que será limitada por chunk."
+MobAddedErrorNoArgs2: "&fVocê deve inserir a quantidade do mob que será limitada por chunk."
+MobAddedErrorOnlyNumber: "&fO valor de quantidade deve ser um numérico."
+MobRemovedSuccess: "&fVocê removeu um mob com sucesso da lista!"
+MobList: "&fEstou lhe trazendo a lista de mobs que foram limitados e os mundos..."
+
+# World
+WorldArgsInvalid: "&fOs seguintes argumentos estão disponíveis: &cadd &f(Adiciona um mundo a lista), &clist &f(Para você deletar um item deve lista-los), &caddall &f(Adiciona todos os mundos de seu servidor)"
+WorldArgsInvalid2: "&fVocê deve passar um nome de um mundo assim como: &cworld, world_nether..."
+WorldAddedSuccess: "&fVocê adicionou um mundo com sucesso."
+WorldAddAll: "&fVocê adicionou todos os mundos de seu servidor para a lista."
+WorldList: "&fEstou lhe trazendo a lista de todos os mundos adicionados a lista"
+WorldRemovedSuccess: "&fVocê removeu um mundo com sucesso!"
+WorldChangeToEnabled: "&fVocê habilitou um mundo que estava desabilitado."
+WorldChangeToDisable: "&fVocê desabilitou um mundo que estava habilitado. "
