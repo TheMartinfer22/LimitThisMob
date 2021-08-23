@@ -12,7 +12,7 @@ public class DatabaseConnector {
         Connection conn = new ConnectionFactory().getConnection();
 
         String chunks =  "CREATE TABLE IF NOT EXISTS LIMITMOBCHUNK (ID SERIAL PRIMARY KEY, MOB varchar(255), LIMITE INTEGER)";
-        String worlds =  "CREATE TABLE IF NOT EXISTS WORLDS (ID SERIAL PRIMARY KEY, NAME varchar(255), LIMITED varchar(255))";
+        String worlds =  "CREATE TABLE IF NOT EXISTS WORLDS (ID SERIAL PRIMARY KEY, NAME varchar(255))";
 
         PreparedStatement preparedStatementChunks = conn.prepareStatement(chunks);
         PreparedStatement preparedStatementWorlds = conn.prepareStatement(worlds);
