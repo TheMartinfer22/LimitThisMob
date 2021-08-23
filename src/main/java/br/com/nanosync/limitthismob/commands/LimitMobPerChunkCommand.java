@@ -1,7 +1,8 @@
 package br.com.nanosync.limitthismob.commands;
 
 import br.com.nanosync.limitthismob.Main;
-import br.com.nanosync.limitthismob.database.DatabaseAPI;
+import br.com.nanosync.limitthismob.database.api.DatabaseAPI;
+import br.com.nanosync.limitthismob.memories.api.MemoriesAPI;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -38,8 +39,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
         }
 
         DatabaseAPI databaseAPI = new DatabaseAPI();
-//        Set<Map.Entry<String, Integer>> memDataMob = databaseAPI.listMobChunk().entrySet();
-//        Set<Map.Entry<String, String>> memDataWorld = databaseAPI.listWprlds().entrySet();
+        MemoriesAPI memoriesAPI = new MemoriesAPI();
 
         switch (args[0]){
             case "add":
@@ -59,6 +59,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                     return true;
                 }
                 sender.sendMessage(prefix + Main.getInstance().getConfig().getString("MobAddedSuccess").replace("&", "§"));
+                memoriesAPI.reload();
                 break;
 
             case "list":
@@ -72,7 +73,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                     delete.setBold(true);
                     delete.setColor(net.md_5.bungee.api.ChatColor.RED);
                     delete.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "Clique aqui para deletar.").create()));
-                    delete.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/teste mobremove " + mob));
+                    delete.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mob mobremove " + mob));
                     sender.spigot().sendMessage(new TextComponent(ChatColor.GREEN + "Mob: " + ChatColor.GOLD + mob + ChatColor.GREEN + " Limit: " + ChatColor.GOLD + quantity), delete);
                 });
                 sender.sendMessage("");
@@ -84,7 +85,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                     delete.setBold(true);
                     delete.setColor(net.md_5.bungee.api.ChatColor.RED);
                     delete.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "Clique aqui para deletar.").create()));
-                    delete.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/teste worldremove " + world));
+                    delete.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mob worldremove " + world));
                     sender.spigot().sendMessage(new TextComponent(ChatColor.GREEN + "World: " + ChatColor.GOLD + world), delete);
                 });
                 break;
@@ -93,14 +94,16 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                 if (args.length < 1) return true;
                 databaseAPI.removeWorld(args[1]);
                 sender.sendMessage(prefix + Main.getInstance().getConfig().getString("WorldRemovedSuccess").replace("&", "§"));
-                Bukkit.getPlayer(sender.getName()).performCommand("teste list");
+                memoriesAPI.reload();
+                Bukkit.getPlayer(sender.getName()).performCommand("mob list");
                 break;
 
             case "mobremove":
                 if (args.length < 1) return true;
                 databaseAPI.removeMobChunk(args[1]);
+                memoriesAPI.reload();
                 sender.sendMessage(prefix + Main.getInstance().getConfig().getString("MobRemovedSuccess").replace("&", "§"));
-                Bukkit.getPlayer(sender.getName()).performCommand("teste list");
+                Bukkit.getPlayer(sender.getName()).performCommand("mob list");
                 break;
 
             case "who":
@@ -115,7 +118,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                     copy.setBold(true);
                     copy.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
                     copy.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GREEN + "Clique para adicionar a lista de limitação.").create()));
-                    copy.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/teste add " + entityFound.getName() + " LIMIT_HERE"));
+                    copy.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mob add " + entityFound.getName() + " LIMIT_HERE"));
                     sender.spigot().sendMessage(text, copy);
                 });
                 sender.sendMessage("");
@@ -134,6 +137,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                     }
                     sender.sendMessage(prefix + Main.getInstance().getConfig().getString("WorldAddedSuccess").replace("&", "§"));
                     databaseAPI.addWorld(args[2]);
+                    memoriesAPI.reload();
                     return true;
                 }
 
@@ -143,6 +147,7 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
                     Bukkit.getWorlds().forEach(existingWorld -> {
                         databaseAPI.addWorld(existingWorld.getName());
                     });
+                    memoriesAPI.reload();
                     return true;
                 }
 
@@ -156,6 +161,12 @@ public class LimitMobPerChunkCommand implements CommandExecutor, TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return Arrays.asList("add", "list", "world", "who");
+        if (args.length == 1){
+            return Arrays.asList("add", "list", "world", "who");
+        }
+        if (args[1].equals("world")){
+            return Arrays.asList("add", "addall");
+        }
+        return null;
     }
 }
