@@ -1,5 +1,6 @@
-package br.com.nanosync.limitthismob.database;
+package br.com.nanosync.limitthismob.database.api;
 
+import br.com.nanosync.limitthismob.database.ConnectionFactory;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
@@ -9,8 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class DatabaseAPI {
-
-    public static
 
     // Mob Chunk Scope
     @SneakyThrows
